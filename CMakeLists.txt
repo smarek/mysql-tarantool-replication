@@ -21,7 +21,11 @@ set(TARANTOOL_C_EMBEDDED ON)
 
 add_subdirectory(lib/libslave)
 add_subdirectory(lib/yaml-cpp)
-add_subdirectory(lib/tarantool-c)
+
+find_library(TNT_LIB tarantool.so.2.0)
+if(NOT TNT_LIB)
+  add_subdirectory(lib/tarantool-c)
+endif()
 
 include_directories(
 	BEFORE SYSTEM
@@ -40,7 +44,7 @@ find_library(LPTHREAD pthread)
 
 add_executable(rp ${REPLICATOR_SRC})
 set_target_properties(rp PROPERTIES COMPILE_FLAGS "-std=c++11" LINK_FLAGS "-Wl,-s -Wl,--gc-sections" OUTPUT_NAME replicatord)
-target_link_libraries(rp rt dl tnt slave_a yaml-cpp ${LPTHREAD})
+target_link_libraries(rp rt dl tarantool slave_a yaml-cpp ${LPTHREAD})
 
 install(TARGETS rp RUNTIME DESTINATION sbin)
 install(FILES replicatord.yml DESTINATION etc)

@@ -11,6 +11,7 @@
 #include <tarantool/tarantool.h>
 #include <tarantool/tnt_net.h>
 #include <tarantool/tnt_opt.h>
+#define MP_SOURCE 1
 #include <msgpuck.h>
 extern "C" {
 #include <tarantool/tnt_io.h>
